@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Branch\StoreRequest;
 use App\Http\Requests\Branch\UpdateRequest;
-use App\Http\Resources\Section\SectionResourse;
+use App\Http\Resources\Branch\BranchResource;
+use App\Http\Resources\Section\SectionResource;
 use App\Models\Branch;
 use App\Models\Section;
 use Inertia\Inertia;
@@ -25,7 +26,7 @@ class BranchController extends Controller
     public function create()
     {
         $sections = Section::all();
-        $sections = SectionResourse::collection($sections)->resolve();
+        $sections = SectionResource::collection($sections)->resolve();
         return Inertia::render('Branch/Create', ['sections' => $sections]);
     }
 
@@ -44,7 +45,8 @@ class BranchController extends Controller
      */
     public function show(Branch $branch)
     {
-        //
+        $branch = BranchResource::make($branch)->resolve();
+        return Inertia::render('Branch/Index', ['branch' => $branch]);
     }
 
     /**
