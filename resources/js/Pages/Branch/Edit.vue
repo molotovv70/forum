@@ -6,12 +6,16 @@ export default {
     name: "Edit",
     props: {
         sections: Array,
-        branch: Array,
+        branch: Object,
+    },
+    mounted() {
+        this.getBranches()
+        this.parent_id = this.branch.parent_id
     },
     data() {
         return {
-            title: '',
-            section_id: null,
+            title: this.branch.title,
+            section_id: this.branch.section_id,
             parent_id: null,
             branches: [],
         }
@@ -20,16 +24,16 @@ export default {
         Link
     },
     methods: {
-        store() {
-            this.$inertia.post('/branches', {
-                title: this.title,
+        update() {
+            this.$inertia.patch(`/branches/${this.branch.id}`, {
                 section_id: this.section_id,
                 parent_id: this.parent_id,
+                title: this.title,
             });
         },
         getBranches() {
             this.parent_id = null;
-            axios.get(`/sections/${this.section_id}/branches`)
+            axios.get(`/sections/${this.section_id}/branches_except/${this.branch.id}`)
                 .then(res => {
                     this.branches = res.data;
                 });
@@ -57,7 +61,7 @@ export default {
             </div>
             <div class="mb-4" v-if="branches.length > 0">
                 <select class="border-sky-500 p-2 w-1/4" v-model="parent_id">
-                    <option value="null" selected disabled>Ветки этого раздела</option>
+                    <option value="null" selected disabled>Выберете Ветку</option>
                     <option v-for="branch in branches" :value="branch.id">{{ branch.title }}</option>
                 </select>
             </div>
@@ -68,7 +72,7 @@ export default {
                 </div>
             </div>
             <div class="">
-                <a @click.prevent="store" class="block py-2 w-1/4 bg-sky-500 border border-sky-600 text-white text-center">Сохранить</a>
+                <a @click.prevent="update" class="block py-2 w-1/4 bg-sky-500 border border-sky-600 text-white text-center">Сохранить</a>
             </div>
         </div>
     </div>

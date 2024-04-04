@@ -66,7 +66,9 @@ class BranchController extends Controller
      */
     public function update(UpdateRequest $request, Branch $branch)
     {
-        //
+        $data = $request->validated();
+        $branch->update($data);
+        return redirect()->route('branches.index');
     }
 
     /**
