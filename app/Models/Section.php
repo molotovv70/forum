@@ -16,4 +16,9 @@ class Section extends Model
     {
         return $this->hasMany(Branch::class, 'section_id', 'id');
     }
+    public function parentBranches()
+    {
+        return $this->hasMany(Branch::class, 'section_id', 'id')
+            ->whereNull('parent_id');
+    }
 }
