@@ -54,7 +54,11 @@ class BranchController extends Controller
      */
     public function edit(Branch $branch)
     {
-        //
+        $sections = Section::all();
+        $sections = SectionResource::collection($sections)->resolve();
+
+        $branch = BranchResource::make($branch)->resolve();
+        return Inertia::render('Branch/Edit', ['branch' => $branch, 'sections' => $sections]);
     }
 
     /**
