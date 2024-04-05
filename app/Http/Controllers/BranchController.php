@@ -86,6 +86,4 @@ class BranchController extends Controller
         $branch = BranchResource::make($branch)->resolve();
         return Inertia::render('Theme/Create', ['branch' => $branch]);
     }
-
-
 }
