@@ -3,6 +3,7 @@
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\ThemeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,9 +24,13 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::resource('sections', SectionController::class);
     Route::resource('branches', BranchController::class);
+    Route::resource('themes', ThemeController::class);
 
     Route::get('/sections/{section}/branches', [SectionController::class, 'branchIndex']);
     Route::get('/sections/{section}/branches_except/{branch}', [SectionController::class, 'branchIndexExcept']);
+
+    Route::get('/branches/{branch}/themes/create', [BranchController::class, 'themeCreate'])
+        ->name('branches.themes.create');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

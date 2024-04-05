@@ -3,7 +3,7 @@ import {Link} from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 
 export default {
-    name: "Show",
+    name: "Create",
     props: {
         sections: Array,
     },
