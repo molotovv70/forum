@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Theme extends Model
 {
     use SoftDeletes;
-
     protected $guarded = false;
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'theme_id', 'id');
+    }
 }
