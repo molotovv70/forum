@@ -18,6 +18,7 @@ class MessageResource extends JsonResource
         return [
             'id' => $this->id,
             'theme_id' => $this->theme_id,
+            'is_liked' => $this->isLiked,
             'content' => $this->content,
             'user' => UserResource::make($this->user)->resolve(),
             'time' => $this->created_at->format('d-m-Y'),
