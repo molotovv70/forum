@@ -19,10 +19,11 @@ export default {
     methods: {
         store() {
             axios.post('/messages', {
-                content: this.$refs.editor.innerText,
+                content: this.$refs.editor.innerHTML,
                 theme_id: this.theme.id,
             }).then(res => {
-                this.$refs.editor.innerText = '';
+                this.$refs.editor.innerHTML = '';
+                this.theme.messages.push(res.data);
             })
         },
         toggleLike(message) {
@@ -31,6 +32,18 @@ export default {
                     message.is_liked ? message.likes-- : message.likes++;
                     message.is_liked = !message.is_liked
                 })
+        },
+        quote(content) {
+
+            if (window.getSelection().toString()) {
+                content = window.getSelection().toString();
+            }
+
+            const editor = this.$refs.editor;
+            const oldText = editor.innerHTML;
+
+            const quote = `${oldText} </br> <blockquote >${content}</blockquote> </br>`
+            editor.innerHTML = quote;
         },
     },
 
@@ -59,7 +72,12 @@ export default {
                     </div>
                     <div class="">
                         <p class="mb-4" v-html="message.content"></p>
-                        <div class="flex items-center justify-end">
+
+
+                        <div class="flex items-center justify-end w-full">
+                            <div class="mr-4">
+                                <a @click.prevent="quote(message.content)" href="#" class="inline-block text-sm rounded-lg block bg-sky-600 border border-sky-700 py-2 px-3 text-center text-white">Цитировать</a>
+                            </div>
                             <span class="mr-2">
                                 {{ message.likes }}
                             </span>
@@ -94,6 +112,14 @@ export default {
     </div>
 </template>
 
-<style scoped>
+<style lang="css">
+
+
+blockquote {
+    display: block;
+    padding: 4px;
+    border-left: 4px solid #2563eb;
+    background-color: #f6f6f6;
+}
 
 </style>
