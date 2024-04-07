@@ -42,15 +42,15 @@ export default {
             <h3 class="text-xl mr-4">Личный кабинет</h3>
         </div>
         <div class="bg-white border border-gray-300 p-4">
-            <div class="mb-4">
                 <p class="mb-2">
                     Приветствую, {{ user.name }}
                 </p>
+            <div class="mb-4">
                 <p class="mb-2">
                     Сменить аватар
                 </p>
-                <a href="#" @click.prevent="this.$refs.avatar_load.click()" class="block w-24 h-24 rounded-full bg-gray-300">
-                    <img v-if="user.avatar_url" :src="user.avatar_url" :alt="user.name">
+                <a href="#" @click.prevent="this.$refs.avatar_load.click()" class="block w-24 h-24 rounded-full bg-gray-300 overflow-hidden">
+                    <img class="w-full w-24 h-24 block" v-if="user.avatar_url" :src="user.avatar_url" :alt="user.name">
                 </a>
                 <div hidden class="">
                     <input @change="storeAvatar" ref="avatar_load" type="file">

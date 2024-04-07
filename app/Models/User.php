@@ -46,8 +46,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function getAvatarUrlAttribute()
-    {
-        return url('storage/' . $this->avatar);
+    public function getAvatarUrlAttribute() {
+        return $this->avatar ? url('storage/' . $this->avatar) : null;
     }
 }
