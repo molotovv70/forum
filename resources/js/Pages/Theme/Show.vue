@@ -64,7 +64,8 @@ export default {
                 body: message.body,
                 theme_id: message.theme_id,
             }).then(res => {
-                message.body = '';
+                message.is_not_solved_complaint = res.data.is_not_solved_complaint;
+
             });
         }
     },
@@ -93,6 +94,9 @@ export default {
                         <p class="text-sm italic" v-html="message.time"></p>
                     </div>
                     <div class="">
+                        <div class="mb-4" v-if="message.is_not_solved_complaint">
+                            <p class="w-full bg-red-100 border border-red-200 p-2">Ваша жалоба в рассмотрении</p>
+                        </div>
                         <p class="mb-4" v-html="message.content"></p>
 
                         <div class="flex items-center justify-end w-full mb-4">
