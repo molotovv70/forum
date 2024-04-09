@@ -52,6 +52,20 @@ export default {
             const oldText = editor.innerHTML;
 
             editor.innerHTML = `${oldText} ${title}<blockquote >${message.content}</blockquote> </br>`
+        },
+
+        openComplaint(message) {
+            message.body = '';
+            message.is_complaint = !message.is_complaint;
+        },
+
+        complaint(message) {
+            axios.post(`/messages/${message.id}/complaints`, {
+                body: message.body,
+                theme_id: message.theme_id,
+            }).then(res => {
+                message.body = '';
+            });
         }
     },
 
@@ -81,14 +95,16 @@ export default {
                     <div class="">
                         <p class="mb-4" v-html="message.content"></p>
 
-
-                        <div class="flex items-center justify-end w-full">
+                        <div class="flex items-center justify-end w-full mb-4">
 
                             <div class="mr-4">
                                 <a @click.prevent="quote(message.content)" href="#" class="inline-block text-sm rounded-lg block bg-sky-600 border border-sky-700 py-2 px-3 text-center text-white">Цитировать</a>
                             </div>
                             <div class="mr-4">
                                 <a @click.prevent="answer(message)" href="#" class="inline-block text-sm rounded-lg block bg-indigo-600 border border-indigo-700 py-2 px-3 text-center text-white">Ответить</a>
+                            </div>
+                            <div class="mr-4">
+                                <a @click.prevent="openComplaint(message)" href="#" class="inline-block text-sm rounded-lg block bg-white border border-red-700 py-2 px-3 text-center text-red-600">Пожаловаться</a>
                             </div>
                             <span class="mr-2">
                                 {{ message.likes }}
@@ -104,6 +120,10 @@ export default {
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                 </svg>
                             </a>
+                        </div>
+                        <div class="flex" v-if="message.is_complaint">
+                            <input v-model="message.body" class="p-2 w-5/6 rounded-lg rounded-r-none border border-gray-300" type="text" placeholder="Ваша жалоба">
+                            <a @click.prevent="complaint(message)" class="w-1/5 block text-center rounded-l-none bg-red-700 text-white p-2 rounded-lg" href="#">Отправить</a>
                         </div>
                     </div>
                 </div>

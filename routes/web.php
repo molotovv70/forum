@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/messages/{message}/likes', [MessageController::class, 'toggleLike'])
         ->name('messages.likes.toggle');
 
+    Route::post('/messages/{message}/complaints', [MessageController::class, 'storeComplaint'])
+        ->name('messages.complaints.store');
+
     Route::get('/users/personal', [UserController::class, 'personal'])
         ->name('users.personal');
 
