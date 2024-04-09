@@ -7,6 +7,7 @@ use App\Http\Requests\Message\UpdateRequest;
 use App\Http\Resources\Message\MessageResource;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class MessageController extends Controller
 {
@@ -34,7 +35,15 @@ class MessageController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->id();
 //        dd($data);
+        $ids = Str::of($data['content'])->matchAll('/@[\d]+/')->unique()->transform(
+            function ($id) {
+                return Str::of($id)->replaceMatches('/@/', '')->value();
+            }
+        );
+//        dd($ids);
         $message = Message::create($data);
+
+        $message->answeredUsers()->attach($ids);
 
         $message->loadCount('likedUsers');
 
