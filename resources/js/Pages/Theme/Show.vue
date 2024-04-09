@@ -45,6 +45,14 @@ export default {
             const quote = `${oldText} </br> <blockquote >${content}</blockquote> </br>`
             editor.innerHTML = quote;
         },
+        answer(message) {
+            const title = `<div class="w-full bg-gray-100 border border-gray-200 p-2">Ответ пользователю @${message.user.id} ${message.user.name} от ${message.time}</div>`
+
+            const editor = this.$refs.editor;
+            const oldText = editor.innerHTML;
+
+            editor.innerHTML = `${oldText} ${title}<blockquote >${message.content}</blockquote> </br>`
+        }
     },
 
     layout: MainLayout
@@ -75,8 +83,12 @@ export default {
 
 
                         <div class="flex items-center justify-end w-full">
+
                             <div class="mr-4">
                                 <a @click.prevent="quote(message.content)" href="#" class="inline-block text-sm rounded-lg block bg-sky-600 border border-sky-700 py-2 px-3 text-center text-white">Цитировать</a>
+                            </div>
+                            <div class="mr-4">
+                                <a @click.prevent="answer(message)" href="#" class="inline-block text-sm rounded-lg block bg-indigo-600 border border-indigo-700 py-2 px-3 text-center text-white">Ответить</a>
                             </div>
                             <span class="mr-2">
                                 {{ message.likes }}

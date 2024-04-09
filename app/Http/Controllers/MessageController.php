@@ -33,6 +33,7 @@ class MessageController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = auth()->id();
+//        dd($data);
         $message = Message::create($data);
 
         $message->loadCount('likedUsers');
