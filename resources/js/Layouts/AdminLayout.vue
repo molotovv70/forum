@@ -14,7 +14,8 @@ export default {
         <div class="bg-white border-b border-gray-300 py-4">
             <div class="w-1/2 mx-auto">
                 <Link :href="route('sections.index')" class="mr-4">Форум</Link>
-                <Link :href="route('users.personal')">Личный Кабинет</Link>
+                <Link :href="route('users.personal')" class="mr-4">Личный Кабинет</Link>
+                <Link :href="route('admin.main.index')">Админка</Link>
             </div>
         </div>
         <div class="w-1/2 flex items-start mx-auto py-4">
@@ -26,6 +27,9 @@ export default {
                     </div>
                     <div class="">
                         <Link class="block w-full border-b border-gray-300 mb-2" :href="route('admin.complaints.index')">Жалобы</Link>
+                    </div>
+                    <div class="">
+                        <Link class="block w-full border-b border-gray-300 mb-2" :href="route('admin.roles.index')">Роли</Link>
                     </div>
                 </div>
             </div>
