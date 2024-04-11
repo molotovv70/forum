@@ -18,7 +18,7 @@ export default {
             </div>
         </div>
         <div class="w-1/2 flex items-start mx-auto py-4">
-            <div class="w-1/4 bg-white p-4 border border-gray-300 mr-4">
+            <div class="w-1/5 bg-white p-4 border border-gray-300 mr-4">
                 <h3 class="text-xl mr-4">Меню</h3>
                 <div class="">
                     <div class="">
@@ -29,7 +29,7 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="w-3/4 bg-white p-4 border border-gray-300">
+            <div class="w-4/5 bg-white p-4 border border-gray-300">
                 <slot></slot>
             </div>
         </div>
