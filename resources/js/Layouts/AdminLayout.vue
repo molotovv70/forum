@@ -1,5 +1,6 @@
 <script>
 import {Link} from "@inertiajs/vue3";
+
 export default {
     name: "AdminLayout",
     components: {
@@ -16,9 +17,17 @@ export default {
                 <Link :href="route('users.personal')">Личный Кабинет</Link>
             </div>
         </div>
-        <div class="w-1/2 flex mx-auto py-4">
+        <div class="w-1/2 flex items-start mx-auto py-4">
             <div class="w-1/4 bg-white p-4 border border-gray-300 mr-4">
                 <h3 class="text-xl mr-4">Меню</h3>
+                <div class="">
+                    <div class="">
+                        <Link class="block w-full border-b border-gray-300 mb-2" :href="route('admin.main.index')">Статистика</Link>
+                    </div>
+                    <div class="">
+                        <Link class="block w-full border-b border-gray-300 mb-2" :href="route('admin.complaints.index')">Жалобы</Link>
+                    </div>
+                </div>
             </div>
             <div class="w-3/4 bg-white p-4 border border-gray-300">
                 <slot></slot>
