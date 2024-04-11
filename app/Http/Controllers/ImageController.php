@@ -18,7 +18,9 @@ class ImageController extends Controller
 
 
         $image = Image::create([
-            'path' => $path
+            'path' => $path,
+            'user_id' => auth()->id(),
+            // TODO: id in images table not stored
         ]);
 
         return ImageResource::make($image)->resolve();

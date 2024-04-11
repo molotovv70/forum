@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Message\StoreRequest;
 use App\Http\Requests\Message\UpdateRequest;
 use App\Http\Resources\Message\MessageResource;
+use App\Models\Image;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class MessageController extends Controller
@@ -34,12 +36,35 @@ class MessageController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = auth()->id();
+//        dd($data);
         $ids = Str::of($data['content'])->matchAll('/@[\d]+/')->unique()->transform(
             function ($id) {
                 return Str::of($id)->replaceMatches('/@/', '')->value();
             }
         );
+
+        $imgIds = Str::of($data['content'])->matchAll('/img_id=[\d]+/')->unique()->transform(
+            function ($id) {
+                return Str::of($id)->replaceMatches('/img_id=/', '')->value();
+            }
+        );
+
         $message = Message::create($data);
+
+        Image::whereIn('id', $imgIds)->update([
+            'message_id' => $message->id
+        ]);
+
+        Image::where('user_id', auth()->id())
+            ->whereNull('message_id')
+            ->get()
+            ->pluck('path')
+            ->each(function ($path) {
+                Storage::disk('public')->delete($path);
+            });
+
+        Image::where('user_id', auth()->id())
+            ->whereNull('message_id')->delete();
 
         $message->answeredUsers()->attach($ids);
 
