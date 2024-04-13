@@ -9,6 +9,8 @@ use App\Http\Resources\Branch\BranchWithChildrenResource;
 use App\Http\Resources\Section\SectionResource;
 use App\Models\Branch;
 use App\Models\Section;
+//use Illuminate\Auth\Access\Gate;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BranchController extends Controller
@@ -77,6 +79,7 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
+        Gate::authorize('delete', $branch);
         $branch->delete();
         return redirect()->route('sections.index');
     }
