@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Role\StoreRequest;
+use App\Http\Resources\Section\SectionResource;
 use App\Models\Role;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,6 +19,29 @@ class RoleController extends Controller
 
     public function create()
     {
-        return Inertia::render('Admin/Role/Create');
+        $sections = Section::all();
+        $sections = SectionResource::collection($sections)->resolve();
+        return Inertia::render('Admin/Role/Create', ['sections' => $sections]);
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $data = $request->validated();
+        $code = $data['title'];
+
+        if ($data['branch_id']) {
+            $code .= '.' . $data['section_id'] . '.' . $data['branch_id'];
+        } elseif (!$data['branch_id'] && $data['section_id']) {
+            $code = '.' . $data['section_id'];
+        }
+
+        Role::firstOrCreate([
+            'title' => $data['title'],
+            'code' => $code,
+        ]);
+
+        return redirect()->route('admin.roles.index');
+
+        dd($code);
     }
 }
