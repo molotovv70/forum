@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\UserController as UserAdminController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -72,6 +73,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/admin/roles', [RoleController::class, 'store'])
         ->name('admin.roles.store');
+
+    Route::get('/admin/users', [UserAdminController::class, 'index'])
+        ->name('admin.users.index');
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

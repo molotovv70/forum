@@ -30,7 +30,10 @@ export default {
                     </div>
                     <div class="">
                         <Link class="block w-full border-b border-gray-300 mb-2" :href="route('admin.roles.index')">Роли</Link>
+                    </div><div class="">
+                        <Link class="block w-full border-b border-gray-300 mb-2" :href="route('admin.users.index')">Пользователи</Link>
                     </div>
+
                 </div>
             </div>
             <div class="w-4/5 bg-white p-4 border border-gray-300">
