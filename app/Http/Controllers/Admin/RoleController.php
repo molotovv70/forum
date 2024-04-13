@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRequest;
+use App\Http\Resources\Role\RoleResource;
 use App\Http\Resources\Section\SectionResource;
 use App\Models\Role;
 use App\Models\Section;
@@ -14,7 +15,8 @@ class RoleController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/Role/Index');
+        $roles = RoleResource::collection(Role::all())->resolve();
+        return Inertia::render('Admin/Role/Index', ['roles' => $roles]);
     }
 
     public function create()
