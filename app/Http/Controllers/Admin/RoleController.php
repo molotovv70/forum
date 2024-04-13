@@ -34,7 +34,7 @@ class RoleController extends Controller
         if ($data['branch_id']) {
             $code .= '.' . $data['section_id'] . '.' . $data['branch_id'];
         } elseif (!$data['branch_id'] && $data['section_id']) {
-            $code = '.' . $data['section_id'];
+            $code .= '.' . $data['section_id'];
         }
 
         Role::firstOrCreate([

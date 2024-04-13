@@ -42,13 +42,24 @@ export default {
     <div class="">
         <div class="flex items-center mb-4">
             <h3 class="text-xl mr-4">Добавить Ветку</h3>
-            <Link :href="route('sections.store')" class="block px-2 py-1 w-8 bg-white border border-gray-300 rounded-lg text-center">+</Link>
+            <Link :href="route('sections.store')"
+                  class="block px-2 py-1 w-8 bg-white border border-gray-300 rounded-lg text-center">+
+            </Link>
         </div>
         <div>
             <div class="mb-4" v-if="sections.length > 0">
                 <select @change="getBranches" class="border-sky-500 p-2 w-1/4" v-model="section_id">
                     <option value="null" selected disabled>Выберете раздел</option>
-                    <option v-for="section in sections" :value="section.id">{{ section.title }}</option>
+                    <template v-for="section in sections">
+                        <template v-if="this.$page.props.auth.roles.some(code => {
+                            return [
+                                `editor`,
+                                `editor.${section.id}`
+                            ].includes(code)
+                        })">
+                            <option :value="section.id">{{ section.title }}</option>
+                        </template>
+                    </template>
                 </select>
                 <div v-if="this.$page.props.errors.section_id" class="text-sm text-red-600">
                     {{ this.$page.props.errors.section_id }}
@@ -67,7 +78,8 @@ export default {
                 </div>
             </div>
             <div class="">
-                <a @click.prevent="store" class="block py-2 w-1/4 bg-sky-500 border border-sky-600 text-white text-center">Добавить</a>
+                <a @click.prevent="store"
+                   class="block py-2 w-1/4 bg-sky-500 border border-sky-600 text-white text-center">Добавить</a>
             </div>
         </div>
     </div>
