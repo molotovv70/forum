@@ -61,7 +61,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/complaints', [ComplaintController::class, 'index'])
         ->name('admin.complaints.index');
 
-
     Route::patch('/admin/complaints/{complaint}', [ComplaintController::class, 'update'])
         ->name('admin.complaints.update');
 
@@ -76,6 +75,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/users', [UserAdminController::class, 'index'])
         ->name('admin.users.index');
+
+    Route::post('/admin/users/{user}/roles', [UserAdminController::class, 'toggleRole'])
+        ->name('admin.users.roles');
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
