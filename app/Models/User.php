@@ -58,4 +58,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class, 'user_id', 'id')->where('is_read', false);
     }
+
+    public static function getCleanedUserId($data)
+    {
+        return getId($data, '/@[\d]+/', '/@/')->filter(function ($id) {
+            return (User::where('id', $id)->exists());
+        });
+    }
 }
