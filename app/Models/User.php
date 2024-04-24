@@ -65,4 +65,6 @@ class User extends Authenticatable
             return (User::where('id', $id)->exists());
         });
     }
+
+
 }

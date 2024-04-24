@@ -20,7 +20,7 @@ class ThemeWithMessagesResource extends JsonResource
             'branch_id' => $this->branch_id,
             'description' => $this->description,
             'title' => $this->title,
-            'messages' => MessageResource::collection($this->messages)->resolve(),
+            'messages' => MessageResource::collection($this->messages->load('user'))->resolve(),
 
         ];
     }
