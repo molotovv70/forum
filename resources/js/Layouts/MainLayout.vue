@@ -5,9 +5,11 @@ import axios from "axios";
 export default {
     name: "MainLayout",
     created() {
-        Echo.channel('test-name').listen('.test', res => {
-            console.log(res)
-        })
+        Echo.private(`users.notifications.${this.$page.props.auth.user.id}`)
+            .listen('.user_notifications', res => {
+                this.$page.props.auth.notifications.push(res.data);
+                this.$page.props.auth.notification_count++;
+            })
     },
     components: {
         Link

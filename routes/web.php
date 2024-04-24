@@ -27,7 +27,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    event(new \App\Events\TestEvent());
+    event(new \App\Events\StoreNotificationEvent());
 });
 
 Route::get('/dashboard', function () {
