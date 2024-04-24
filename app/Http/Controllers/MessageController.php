@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StoreMessageEvent;
 use App\Http\Requests\Message\StoreRequest;
 use App\Http\Requests\Message\UpdateRequest;
 use App\Http\Resources\Message\MessageResource;
@@ -11,6 +12,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -54,6 +56,9 @@ class MessageController extends Controller
         );
 
         $message = Message::create($data);
+
+        broadcast(new StoreMessageEvent($message))->toOthers();
+
 
         Image::whereIn('id', $imgIds)->update([
             'message_id' => $message->id

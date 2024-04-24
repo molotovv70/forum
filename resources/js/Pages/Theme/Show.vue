@@ -12,6 +12,12 @@ export default {
             content: '',
         }
     },
+    created() {
+        Echo.channel(`themes.${this.theme.id}`)
+            .listen('.store_message', res => {
+                this.theme.messages.push(res.data)
+            })
+    },
     components: {
         Link
     },
