@@ -55,9 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/personal', [UserController::class, 'personal'])
         ->name('users.personal');
 
-    Route::patch('/users/personal', [UserController::class, 'update'])
-        ->name('users.personal');
-
+    Route::patch('/users/personal', [UserController::class, 'update']);
 
     Route::post('/images', [ImageController::class, 'store']);
 
